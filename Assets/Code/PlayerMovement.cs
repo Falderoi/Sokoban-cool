@@ -1,68 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private int playerRow = 1; // Position initiale du joueur (ligne)
-    private int playerCol = 1; // Position initiale du joueur (colonne)
+    [SerializeField] private BoardManager boardManager;
+    private Vector2Int position;
 
-    private BoardManager boardManager;
-
-    private bool isMoving = false; // Empêche les mouvements multiples à la fois
-
-    void Start()
+    public void Init(Vector2Int startPosition)
     {
-        boardManager = FindObjectOfType<BoardManager>();
-        MovePlayer(playerRow, playerCol); // Place le joueur au départ
+        position = startPosition;
+        transform.position = new Vector2(position.x, -position.y);
     }
 
-    void Update()
+    private void Update()
     {
-        // Si le joueur n'est pas déjà en mouvement, vérifier les entrées
-        if (!isMoving)
-        {
-            float horizontal = Input.GetAxisRaw("Horizontal"); // Axe horizontal (flèches / joystick)
-            float vertical = Input.GetAxisRaw("Vertical"); // Axe vertical (flèches / joystick)
+        Vector2Int desiredPosition = position;
 
-            if (horizontal != 0)
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            desiredPosition = new Vector2Int(position.x, position.y - 1);
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+            desiredPosition = new Vector2Int(position.x, position.y + 1);
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            desiredPosition = new Vector2Int(position.x - 1, position.y);
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+            desiredPosition = new Vector2Int(position.x + 1, position.y);
+
+        if (desiredPosition != position)
+        {
+            if (desiredPosition.x <= 9
+                && desiredPosition.y <= 9
+                && desiredPosition.x >= 0
+                && desiredPosition.y >= 0)
             {
-                AttemptMove(playerRow, playerCol + (int)horizontal); // Déplacer vers la gauche ou la droite
-            }
-            else if (vertical != 0)
-            {
-                AttemptMove(playerRow - (int)vertical, playerCol); 
+                // Cas sol
+                if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Floor)
+                {
+                    position = desiredPosition;
+                    transform.position = new Vector2(position.x, -position.y);
+                    // Cas boite
+                }
+                else if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Box)
+                {
+                    Vector2Int desiredBoxPosition = desiredPosition + (desiredPosition - position);
+                    if (desiredBoxPosition.x <= 9
+                        && desiredBoxPosition.y <= 9
+                        && desiredBoxPosition.x >= 0
+                        && desiredBoxPosition.y >= 0
+                        && boardManager.board[desiredBoxPosition.y, desiredBoxPosition.x] == TileType.Floor)
+                    {
+                        position = desiredPosition;
+                        transform.position = new Vector2(position.x, -position.y);
+                        boardManager.board[desiredPosition.y, desiredPosition.x] = TileType.Floor;
+                        boardManager.board[desiredBoxPosition.y, desiredBoxPosition.x] = TileType.Box;
+                        boardManager.UpdateVisuals();
+                    }
+                }
             }
         }
-    }
-    void AttemptMove(int newRow, int newCol)
-    {
-        
-        if (newRow >= 0 && newRow < 10 && newCol >= 0 && newCol < 10)
-        {
-            
-            if (!boardManager.board[newRow, newCol])
-            {
-                playerRow = newRow;
-                playerCol = newCol;
-                MovePlayer(playerRow, playerCol);
-            }
-            else
-            {
-                Debug.Log("Collision avec un mur!");
-            }
-        }
-        isMoving = true;
-        Invoke("ResetMove", 0.2f); 
-    }
-
-    void MovePlayer(int row, int col)
-    {
-        transform.position = new Vector2(col, -row); 
-    }
-
-    void ResetMove()
-    {
-        isMoving = false; 
     }
 }

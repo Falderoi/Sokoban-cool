@@ -245,6 +245,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallTilePrefab: {fileID: 4957051106505072409, guid: fd577c42742eb3240bb45812df57ef72, type: 3}
   floorTilePrefab: {fileID: 5074916435499609175, guid: a2bbf4416d6fbed4da389c2a97351463, type: 3}
+  boxTilePrefab: {fileID: 7358056410857664290, guid: 229ed46d37a84af4ba7371fdb15039d5, type: 3}
+  playerController: {fileID: 1175330841}
+  levelToLoad: {fileID: 11400000, guid: efa02a30f027cdf4d95805d2baad16e1, type: 2}
 --- !u!4 &1033612966
 Transform:
   m_ObjectHideFlags: 0
@@ -357,6 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df16df3906f83d846bd7b301b2c62f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardManager: {fileID: 1033612965}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
