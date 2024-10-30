@@ -66,9 +66,25 @@ public class PlayerMovement : MonoBehaviour
                             boardManager.board[desiredBoxPosition.y, desiredBoxPosition.x] = TileType.SwitchandBox;
 
                         boardManager.UpdateVisuals();
+                        CheckWinCondition();
                     }
                 }
             }
         }
+    }
+
+
+    private void CheckWinCondition()
+    {
+        for (int row = 0; row < 10; row++)
+        {
+            for (int col = 0; col < 10; col++)
+            {
+                if (boardManager.board[row, col] == TileType.Switch)
+                    return;
+            }
+
+        }
+        Debug.Log("victoire !");
     }
 }
