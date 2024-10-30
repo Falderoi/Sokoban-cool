@@ -246,8 +246,9 @@ MonoBehaviour:
   wallTilePrefab: {fileID: 4957051106505072409, guid: fd577c42742eb3240bb45812df57ef72, type: 3}
   floorTilePrefab: {fileID: 5074916435499609175, guid: a2bbf4416d6fbed4da389c2a97351463, type: 3}
   boxTilePrefab: {fileID: 7358056410857664290, guid: 229ed46d37a84af4ba7371fdb15039d5, type: 3}
+  switchTilePrefab: {fileID: 2280216694248608972, guid: f385b2fe6bc8fcc4285c5fcf9e6d140a, type: 3}
   playerController: {fileID: 1175330841}
-  levelToLoad: {fileID: 11400000, guid: efa02a30f027cdf4d95805d2baad16e1, type: 2}
+  levelToLoad: {fileID: 11400000, guid: 577859fd6404332428a74e0465f02dd8, type: 2}
 --- !u!4 &1033612966
 Transform:
   m_ObjectHideFlags: 0

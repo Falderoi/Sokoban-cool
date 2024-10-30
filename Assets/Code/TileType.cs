@@ -2,5 +2,8 @@ public enum TileType
 {
     Floor,
     Wall,
-    Box
+    Box,
+    Switch,
+    SwitchandBox
+
 }

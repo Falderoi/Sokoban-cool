@@ -10,7 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a499d5c65322a143b78877f4b464606, type: 3}
-  m_Name: LevelData
+  m_Name: New Level Data
   m_EditorClassIdentifier: 
-  levelName: 
-  levelFile: {fileID: 0}
+  content: 'FFFFFFFFFF
+
+    FFWWFFFFFF
+
+    FSFFFFFFFF
+
+    FFFFFFFFFF
+
+    FFIFFFWFFF
+
+    FFFFFBFFFF
+
+    FFWFFFFFFF
+
+    FFFFFFFFFF
+
+    FFFFFFWFFF
+
+    FFFWFFFFFF'

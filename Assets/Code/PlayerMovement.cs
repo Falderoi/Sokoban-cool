@@ -32,25 +32,39 @@ public class PlayerMovement : MonoBehaviour
                 && desiredPosition.y >= 0)
             {
                 // Cas sol
-                if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Floor)
+                if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Floor
+                    || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Switch)
                 {
                     position = desiredPosition;
                     transform.position = new Vector2(position.x, -position.y);
                     // Cas boite
                 }
-                else if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Box)
+                else if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Box
+                  || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.SwitchandBox)
                 {
                     Vector2Int desiredBoxPosition = desiredPosition + (desiredPosition - position);
+                    TileType desiredBoxTileType = boardManager.board[desiredBoxPosition.y, desiredBoxPosition.x];
                     if (desiredBoxPosition.x <= 9
                         && desiredBoxPosition.y <= 9
                         && desiredBoxPosition.x >= 0
                         && desiredBoxPosition.y >= 0
-                        && boardManager.board[desiredBoxPosition.y, desiredBoxPosition.x] == TileType.Floor)
+                        && (desiredBoxTileType == TileType.Floor || desiredBoxTileType == TileType.Switch))
                     {
                         position = desiredPosition;
                         transform.position = new Vector2(position.x, -position.y);
-                        boardManager.board[desiredPosition.y, desiredPosition.x] = TileType.Floor;
-                        boardManager.board[desiredBoxPosition.y, desiredBoxPosition.x] = TileType.Box;
+
+                        // Transformation case de départ
+                        if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Box) // Boite simple
+                            boardManager.board[desiredPosition.y, desiredPosition.x] = TileType.Floor;
+                        else // Boite était sur un switch
+                            boardManager.board[desiredPosition.y, desiredPosition.x] = TileType.Switch;
+
+                        // Transformation case d'arrivée
+                        if (desiredBoxTileType == TileType.Floor) // Je pousse la boite vers un sol
+                            boardManager.board[desiredBoxPosition.y, desiredBoxPosition.x] = TileType.Box;
+                        else // Je pousse la boite vers un switch
+                            boardManager.board[desiredBoxPosition.y, desiredBoxPosition.x] = TileType.SwitchandBox;
+
                         boardManager.UpdateVisuals();
                     }
                 }
