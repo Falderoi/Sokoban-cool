@@ -183,7 +183,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -207,12 +207,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5, y: -4.5, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.3963385, y: -5.0890183, z: -10.034327}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1033612966}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1033612964
 GameObject:
@@ -244,10 +244,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallTilePrefab: {fileID: 4957051106505072409, guid: fd577c42742eb3240bb45812df57ef72, type: 3}
-  floorTilePrefab: {fileID: 5074916435499609175, guid: a2bbf4416d6fbed4da389c2a97351463, type: 3}
   boxTilePrefab: {fileID: 7358056410857664290, guid: 229ed46d37a84af4ba7371fdb15039d5, type: 3}
   switchTilePrefab: {fileID: 2280216694248608972, guid: f385b2fe6bc8fcc4285c5fcf9e6d140a, type: 3}
   boxandswitchTilePrefab: {fileID: 4168116644839259023, guid: 9f0bfc75f05091b4eb2d5a06e96484a3, type: 3}
+  floorTilePrefabs:
+  - {fileID: 5074916435499609175, guid: a2bbf4416d6fbed4da389c2a97351463, type: 3}
+  - {fileID: 5074916435499609175, guid: 92bb4c9f432083a48886838a05f72b61, type: 3}
   playerController: {fileID: 1175330841}
   levelToLoad: {fileID: 11400000, guid: 577859fd6404332428a74e0465f02dd8, type: 2}
 --- !u!4 &1033612966
@@ -262,7 +264,8 @@ Transform:
   m_LocalPosition: {x: -1.8963386, y: 0.58901834, z: 0.03432643}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 519420032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1175330838
@@ -321,15 +324,15 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1961713879
-  m_SortingLayer: 2
+  m_SortingLayerID: 1668169789
+  m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.016161919, g: 0, b: 1, a: 1}
+  m_Sprite: {fileID: 674276780307648894, guid: 316cae604af74a744b4b48ee6fbb4cba, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.2, y: 0.2}
+  m_Size: {x: 4.33, y: 5.39}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -344,8 +347,8 @@ Transform:
   m_GameObject: {fileID: 1175330838}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.3834066, y: -5.4602256, z: 0.0056266333}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalPosition: {x: 2.98, y: -4.46, z: 0}
+  m_LocalScale: {x: 0.24731141, y: 0.24731141, z: 0.24731141}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -367,6 +370,5 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
   - {fileID: 1033612966}
   - {fileID: 1175330840}

@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Movable
+  - Undefined
   layers:
   - Default
   - TransparentFX
@@ -44,6 +46,9 @@ TagManager:
   - name: background
     uniqueID: 152611943
     locked: 0
-  - name: player
+  - name: interactable
     uniqueID: 2333253417
+    locked: 0
+  - name: Player
+    uniqueID: 1668169789
     locked: 0
