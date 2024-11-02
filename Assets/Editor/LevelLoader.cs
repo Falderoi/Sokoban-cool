@@ -3,22 +3,21 @@ using UnityEngine;
 
 public class LevelLoader : EditorWindow
 {
-    private LevelData selectedLevel;
-
+    private int levelIndex;
 
     [MenuItem("Window/LevelLoader")]
     public static void OpenWindow()
     {
         LevelLoader window = GetWindow<LevelLoader>();
-        window.titleContent = new GUIContent("level loader");
+        window.titleContent = new GUIContent("Level Loader");
     }
+
     private void OnGUI()
     {
-        selectedLevel= (LevelData) EditorGUILayout.ObjectField(selectedLevel, typeof(LevelData));
-       if (GUILayout.Button("Load level"))
-         {
-
-            FindObjectOfType<BoardManager>().LoadLevel(selectedLevel);
+        levelIndex = EditorGUILayout.IntField("Level Index", levelIndex);
+        if (GUILayout.Button("Load Level"))
+        {
+            FindObjectOfType<BoardManager>().LoadLevel(levelIndex);
         }
     }
 }
