@@ -31,12 +31,21 @@ public class PlayerMovement : MonoBehaviour
                 && desiredPosition.x >= 0
                 && desiredPosition.y >= 0)
             {
+                // Cas sol
                 if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Floor
-                    || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Switch)
+                    || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Switch
+                    || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Teleporter) // Permettre le déplacement vers le téléporteur
                 {
                     position = desiredPosition;
                     transform.position = new Vector2(position.x, -position.y);
+
+                    // Vérifie si le joueur est sur un téléporteur pour activer la téléportation
+                    if (boardManager.board[position.y, position.x] == TileType.Teleporter)
+                    {
+                        TeleportPlayer();
+                    }
                 }
+
                 else if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Box
                     || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.SwitchandBox)
                 {
@@ -64,6 +73,40 @@ public class PlayerMovement : MonoBehaviour
                         boardManager.UpdateVisuals();
                         CheckWinCondition();
                     }
+                    else if (boardManager.board[position.y, position.x] == TileType.Teleporter)
+                    {
+                        // Rechercher une autre case de téléporteur et y téléporter le joueur
+                        for (int row = 0; row < 10; row++)
+                        {
+                            for (int col = 0; col < 10; col++)
+                            {
+                                if ((row != position.y || col != position.x) && boardManager.board[row, col] == TileType.Teleporter)
+                                {
+                                    position = new Vector2Int(col, row);
+                                    transform.position = new Vector2(position.x, -position.y);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    private void TeleportPlayer()
+    {
+        // Recherche la position du deuxième téléporteur
+        for (int row = 0; row < 10; row++)
+        {
+            for (int col = 0; col < 10; col++)
+            {
+                if ((row != position.y || col != position.x) && boardManager.board[row, col] == TileType.Teleporter)
+                {
+                    // Téléportation vers le deuxième téléporteur
+                    position = new Vector2Int(col, row);
+                    transform.position = new Vector2(position.x, -position.y);
+                    return;
                 }
             }
         }

@@ -247,11 +247,17 @@ MonoBehaviour:
   boxTilePrefab: {fileID: 7358056410857664290, guid: 229ed46d37a84af4ba7371fdb15039d5, type: 3}
   switchTilePrefab: {fileID: 2280216694248608972, guid: f385b2fe6bc8fcc4285c5fcf9e6d140a, type: 3}
   boxandswitchTilePrefab: {fileID: 4168116644839259023, guid: 9f0bfc75f05091b4eb2d5a06e96484a3, type: 3}
+  teleporterPrefab: {fileID: 1000658786941242181, guid: df5a4a33eae8ead4e8bb6d66a8314dda, type: 3}
   floorTilePrefabs:
   - {fileID: 5074916435499609175, guid: a2bbf4416d6fbed4da389c2a97351463, type: 3}
   - {fileID: 5074916435499609175, guid: 92bb4c9f432083a48886838a05f72b61, type: 3}
   playerController: {fileID: 1175330841}
-  levelToLoad: {fileID: 11400000, guid: 577859fd6404332428a74e0465f02dd8, type: 2}
+  levels:
+  - {fileID: 11400000, guid: 577859fd6404332428a74e0465f02dd8, type: 2}
+  - {fileID: 11400000, guid: 31fe6fa8fee110642b78e1bf32263b06, type: 2}
+  - {fileID: 11400000, guid: 1df48ec5ecba0c24cad5d2132328f841, type: 2}
+  - {fileID: 11400000, guid: b1d52c23813967d4c985fcfac70d4127, type: 2}
+  - {fileID: 11400000, guid: 6a368bba760c86447aa4f8092a0e63e3, type: 2}
 --- !u!4 &1033612966
 Transform:
   m_ObjectHideFlags: 0

@@ -7,9 +7,11 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private GameObject boxTilePrefab;
     [SerializeField] private GameObject switchTilePrefab;
     [SerializeField] private GameObject boxandswitchTilePrefab;
+    [SerializeField] private GameObject teleporterPrefab;
     [SerializeField] private GameObject[] floorTilePrefabs;
     [SerializeField] private PlayerMovement playerController;
-
+  
+    
     [SerializeField] private LevelData[] levels; // Tableau pour plusieurs niveaux
     private int currentLevelIndex = 0; // Index du niveau actuel
 
@@ -55,6 +57,10 @@ public class BoardManager : MonoBehaviour
                     case 'I':
                         board[row, col] = TileType.Switch;
                         break;
+                    case 'T':
+                        board[row, col] = TileType.Teleporter;
+                        break;
+
                 }
             }
         }
@@ -111,6 +117,10 @@ public class BoardManager : MonoBehaviour
                 else if (board[row, col] == TileType.SwitchandBox)
                 {
                     Instantiate(boxandswitchTilePrefab, position, Quaternion.identity, transform).tag = "Movable";
+                }
+                else if (board[row, col] == TileType.Teleporter)
+                {
+                    Instantiate(teleporterPrefab, position, Quaternion.identity, transform).tag = "Movable";
                 }
             }
         }

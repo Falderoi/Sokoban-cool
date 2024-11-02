@@ -4,6 +4,6 @@ public enum TileType
     Wall,
     Box,
     Switch,
-    SwitchandBox
-
+    SwitchandBox,
+    Teleporter
 }
