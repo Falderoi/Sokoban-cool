@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BoardManager : MonoBehaviour
 {
@@ -10,12 +11,13 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private GameObject teleporterPrefab;
     [SerializeField] private GameObject[] floorTilePrefabs;
     [SerializeField] private PlayerMovement playerController;
-  
-    
-    [SerializeField] private LevelData[] levels; // Tableau pour plusieurs niveaux
-    private int currentLevelIndex = 0; // Index du niveau actuel
+    [SerializeField] private TextMeshProUGUI movementText; // UI text for moves
+    [SerializeField] private LevelData[] levels; // Array for multiple levels
 
+    private LevelData currentLevel;
+    private int currentLevelIndex = 0; // Index of the current level
     public TileType[,] board { get; private set; }
+    private int moveCount = 0; // Counter for moves
 
     private void Start()
     {
@@ -26,14 +28,22 @@ public class BoardManager : MonoBehaviour
     {
         if (levelIndex >= levels.Length)
         {
-            Debug.Log("Tous les niveaux sont terminés !");
+            Debug.Log("All levels completed!");
             return;
         }
 
         // Charger le niveau spécifié
-        LevelData loadedLevel = levels[levelIndex];
+        currentLevel = levels[levelIndex];
         board = new TileType[10, 10];
-        string[] levelLines = loadedLevel.content.Split('\n');
+        string[] levelLines = currentLevel.content.Split('\n');
+
+        // Réinitialiser le compteur de mouvements
+        moveCount = 0;
+        UpdateMovementDisplay(); // Met à jour l'affichage
+
+        // Initialiser la position de départ du joueur
+        Vector2Int playerStartPosition = Vector2Int.zero; // Initialiser à une position par défaut
+        bool playerFound = false; // Indicateur si le joueur est trouvé
 
         for (int row = 0; row < 10; row++)
         {
@@ -52,7 +62,8 @@ public class BoardManager : MonoBehaviour
                         break;
                     case 'S':
                         board[row, col] = TileType.Floor;
-                        playerController.Init(new Vector2Int(col, row));
+                        playerStartPosition = new Vector2Int(col, row); // Enregistrer la position de départ
+                        playerFound = true; // Indiquer que le joueur est trouvé
                         break;
                     case 'I':
                         board[row, col] = TileType.Switch;
@@ -60,24 +71,40 @@ public class BoardManager : MonoBehaviour
                     case 'T':
                         board[row, col] = TileType.Teleporter;
                         break;
-
                 }
             }
         }
+
         InstantiateFloorTiles();
         UpdateVisuals();
+
+        // Initialiser la position du joueur ici
+        if (playerFound)
+        {
+            playerController.Init(playerStartPosition); // Initialiser le joueur à la position correcte
+        }
     }
+
+
+
 
     private void InstantiateFloorTiles()
     {
+        // Optionally clear existing floor tiles before instantiating new ones
+        foreach (Transform child in transform)
+        {
+            if (child.CompareTag("Floor"))
+                Destroy(child.gameObject);
+        }
+
         for (int row = 0; row < 10; row++)
         {
             for (int col = 0; col < 10; col++)
             {
-                if (board[row, col] == TileType.Floor || board[row, col] == TileType.Switch || board[row, col] == TileType.SwitchandBox)
+                if (board[row, col] == TileType.Floor || board[row, col] == TileType.Switch)
                 {
                     GameObject chosenFloorPrefab = (Random.value < 0.1f) ? floorTilePrefabs[0] : floorTilePrefabs[1];
-                    Instantiate(chosenFloorPrefab, new Vector2(col, -row), Quaternion.identity, transform);
+                    Instantiate(chosenFloorPrefab, new Vector2(col, -row), Quaternion.identity, transform).tag = "Floor";
                 }
             }
         }
@@ -96,7 +123,7 @@ public class BoardManager : MonoBehaviour
             for (int col = 0; col < 10; col++)
             {
                 Vector2 position = new Vector2(col, -row);
-                if (board[row, col] == TileType.Box || board[row, col] == TileType.Switch || board[row, col] == TileType.SwitchandBox)
+                if (board[row, col] == TileType.Box || board[row, col] == TileType.Switch)
                 {
                     GameObject chosenFloorPrefab = (Random.value < 0.1f) ? floorTilePrefabs[0] : floorTilePrefabs[1];
                     Instantiate(chosenFloorPrefab, position, Quaternion.identity, transform);
@@ -126,20 +153,51 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    // Passer au niveau suivant
+    public void IncrementMoveCount()
+    {
+        moveCount++;
+        Debug.Log("Move Count: " + moveCount); 
+        UpdateMovementDisplay(); 
+    }
+
+
+    public void ResetLevel()
+    {
+        moveCount = 0; 
+        UpdateMovementDisplay(); 
+        LoadLevel(currentLevelIndex); 
+    }
+
+    public void UpdateMovementDisplay()
+    {
+        Debug.Log("Updating movement display to: " + moveCount);
+        if (movementText != null)
+        {
+            movementText.text = "Moves: " + moveCount; 
+        }
+        else
+        {
+            Debug.LogError("movementText is not assigned in BoardManager.");
+        }
+    }
+
     public void LoadNextLevel()
     {
         currentLevelIndex++;
         if (currentLevelIndex < levels.Length)
         {
-            LoadLevel(currentLevelIndex);
+            LoadLevel(currentLevelIndex); // Charge le niveau suivant
         }
         else
         {
-            Debug.Log("Félicitations ! Vous avez terminé tous les niveaux !");
+            Debug.Log("Congratulations! You have completed all levels!");
         }
     }
+
+
 }
+
+
 
 
 

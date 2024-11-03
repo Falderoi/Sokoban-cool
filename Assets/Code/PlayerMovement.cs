@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -5,15 +6,39 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private BoardManager boardManager;
     private Vector2Int position;
 
+    // Movement counter
+    public int moveCount { get; private set; } = 0; 
+
+    // Optimal move count
+    private int optimalMoves;
+
+    public struct GameState
+    {
+        public Vector2Int playerPosition;
+        public TileType[,] boardState;
+
+        public GameState(Vector2Int playerPos, TileType[,] board)
+        {
+            playerPosition = playerPos;
+            boardState = board.Clone() as TileType[,];
+        }
+    }
     public void Init(Vector2Int startPosition)
     {
-        position = startPosition;
-        transform.position = new Vector2(position.x, -position.y);
+        position = startPosition; // Définit la position du joueur
+        transform.position = new Vector2(position.x, -position.y); // Met à jour la position du transform
+        moveCount = 0; // Réinitialiser le compteur de mouvements du joueur
+        boardManager.IncrementMoveCount(); // Appelle cette méthode pour mettre à jour l'affichage des mouvements
+        Debug.Log($"Player initialized at position: {startPosition}");
+
     }
+
+
 
     private void Update()
     {
         Vector2Int desiredPosition = position;
+        bool playerMoved = false;
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
             desiredPosition = new Vector2Int(position.x, position.y - 1);
@@ -31,21 +56,21 @@ public class PlayerMovement : MonoBehaviour
                 && desiredPosition.x >= 0
                 && desiredPosition.y >= 0)
             {
-                // Cas sol
+                // Si le joueur se déplace
                 if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Floor
                     || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Switch
-                    || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Teleporter) // Permettre le déplacement vers le téléporteur
+                    || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Teleporter)
                 {
                     position = desiredPosition;
                     transform.position = new Vector2(position.x, -position.y);
+                    boardManager.IncrementMoveCount(); // Incrémente le compteur de mouvements
+                    playerMoved = true;
 
-                    // Vérifie si le joueur est sur un téléporteur pour activer la téléportation
                     if (boardManager.board[position.y, position.x] == TileType.Teleporter)
                     {
                         TeleportPlayer();
                     }
                 }
-
                 else if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Box
                     || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.SwitchandBox)
                 {
@@ -59,6 +84,9 @@ public class PlayerMovement : MonoBehaviour
                     {
                         position = desiredPosition;
                         transform.position = new Vector2(position.x, -position.y);
+                        moveCount++; 
+
+  
 
                         if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Box)
                             boardManager.board[desiredPosition.y, desiredPosition.x] = TileType.Floor;
@@ -75,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     else if (boardManager.board[position.y, position.x] == TileType.Teleporter)
                     {
-                        // Rechercher une autre case de téléporteur et y téléporter le joueur
+                        // Search for another teleporter and teleport the player
                         for (int row = 0; row < 10; row++)
                         {
                             for (int col = 0; col < 10; col++)
@@ -89,21 +117,32 @@ public class PlayerMovement : MonoBehaviour
                             }
                         }
                     }
-
+                    position = desiredPosition; // Si le mouvement est valide
+                    moveCount++;
+                    boardManager.IncrementMoveCount();
+                    if (playerMoved)
+                    {
+                        MovePlayer(desiredPosition);
+                    }
                 }
             }
         }
     }
+    private void MovePlayer(Vector2Int desiredPosition)
+    {
+
+        boardManager.IncrementMoveCount();
+    }
     private void TeleportPlayer()
     {
-        // Recherche la position du deuxième téléporteur
+
         for (int row = 0; row < 10; row++)
         {
             for (int col = 0; col < 10; col++)
             {
                 if ((row != position.y || col != position.x) && boardManager.board[row, col] == TileType.Teleporter)
                 {
-                    // Téléportation vers le deuxième téléporteur
+                    // Teleport to the second teleporter
                     position = new Vector2Int(col, row);
                     transform.position = new Vector2(position.x, -position.y);
                     return;
@@ -111,6 +150,12 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    public void ResetPosition()
+    {
+        position = Vector2Int.zero; // Réinitialiser la position à l'origine ou à la position de départ
+        transform.position = new Vector2(position.x, -position.y); // Met à jour la position du transform
+    }
+
 
     private void CheckWinCondition()
     {
@@ -123,7 +168,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        Debug.Log("Victoire !");
-        boardManager.LoadNextLevel(); // Charger le niveau suivant
+        Debug.Log("Victory!");
+        boardManager.LoadNextLevel(); // Load the next level
     }
 }
+
