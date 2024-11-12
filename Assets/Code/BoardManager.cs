@@ -126,7 +126,17 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    // Passer au niveau suivant
+    public void ResetLevel()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        LoadLevel(currentLevelIndex);
+    }
+
+ 
     public void LoadNextLevel()
     {
         currentLevelIndex++;

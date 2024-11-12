@@ -1,14 +1,18 @@
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private BoardManager boardManager;
+    [SerializeField] private TextMeshProUGUI movementCounterTextTMP; // Référence au texte UI pour le compteur
     private Vector2Int position;
+    private int movementCounter = 0;
 
     public void Init(Vector2Int startPosition)
     {
         position = startPosition;
         transform.position = new Vector2(position.x, -position.y);
+        ResetMovementCounter(); // Remettre le compteur à zéro au début du niveau
     }
 
     private void Update()
@@ -31,15 +35,16 @@ public class PlayerMovement : MonoBehaviour
                 && desiredPosition.x >= 0
                 && desiredPosition.y >= 0)
             {
-                // Cas sol
                 if (boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Floor
                     || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Switch
-                    || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Teleporter) // Permettre le déplacement vers le téléporteur
+                    || boardManager.board[desiredPosition.y, desiredPosition.x] == TileType.Teleporter)
                 {
                     position = desiredPosition;
                     transform.position = new Vector2(position.x, -position.y);
 
-                    // Vérifie si le joueur est sur un téléporteur pour activer la téléportation
+                    movementCounter++;
+                    UpdateMovementCounterText(); // Mise à jour du texte UI
+
                     if (boardManager.board[position.y, position.x] == TileType.Teleporter)
                     {
                         TeleportPlayer();
@@ -70,12 +75,14 @@ public class PlayerMovement : MonoBehaviour
                         else
                             boardManager.board[desiredBoxPosition.y, desiredBoxPosition.x] = TileType.SwitchandBox;
 
+                        movementCounter++;
+                        UpdateMovementCounterText(); // Mise à jour du texte UI
+
                         boardManager.UpdateVisuals();
                         CheckWinCondition();
                     }
                     else if (boardManager.board[position.y, position.x] == TileType.Teleporter)
                     {
-                        // Rechercher une autre case de téléporteur et y téléporter le joueur
                         for (int row = 0; row < 10; row++)
                         {
                             for (int col = 0; col < 10; col++)
@@ -94,22 +101,36 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
     private void TeleportPlayer()
     {
-        // Recherche la position du deuxième téléporteur
         for (int row = 0; row < 10; row++)
         {
             for (int col = 0; col < 10; col++)
             {
                 if ((row != position.y || col != position.x) && boardManager.board[row, col] == TileType.Teleporter)
                 {
-                    // Téléportation vers le deuxième téléporteur
                     position = new Vector2Int(col, row);
                     transform.position = new Vector2(position.x, -position.y);
+
+                    movementCounter++;
+                    UpdateMovementCounterText(); // Mise à jour du texte UI
+
                     return;
                 }
             }
         }
+    }
+
+    private void ResetMovementCounter()
+    {
+        movementCounter = 0;
+        UpdateMovementCounterText();
+    }
+
+    private void UpdateMovementCounterText()
+    {
+        movementCounterTextTMP.text = "Mouvements : " + movementCounter;
     }
 
     private void CheckWinCondition()
@@ -124,6 +145,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Debug.Log("Victoire !");
-        boardManager.LoadNextLevel(); // Charger le niveau suivant
+        boardManager.LoadNextLevel();
+        ResetMovementCounter(); // Réinitialiser le compteur lors du chargement du niveau suivant
     }
 }
+
