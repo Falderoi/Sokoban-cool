@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private TextMeshProUGUI movementCounterTextTMP; // Référence au texte UI pour le compteur
+    
     private Vector2Int position;
     private int movementCounter = 0;
 
@@ -143,6 +144,7 @@ public class PlayerMovement : MonoBehaviour
                     return;
             }
         }
+
 
         Debug.Log("Victoire !");
         boardManager.LoadNextLevel();

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -10,8 +11,11 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private GameObject teleporterPrefab;
     [SerializeField] private GameObject[] floorTilePrefabs;
     [SerializeField] private PlayerMovement playerController;
-  
-    
+    [SerializeField] private TextMeshProUGUI textevictoire;
+    private bool victoire = false;
+
+
+
     [SerializeField] private LevelData[] levels; // Tableau pour plusieurs niveaux
     private int currentLevelIndex = 0; // Index du niveau actuel
 
@@ -146,7 +150,18 @@ public class BoardManager : MonoBehaviour
         }
         else
         {
+            victoire = true;
+            victoryscreen();
             Debug.Log("Félicitations ! Vous avez terminé tous les niveaux !");
+        }
+    }
+
+    public void victoryscreen()
+    {
+        if (victoire = true )
+        {
+            textevictoire.enabled = true;
+
         }
     }
 }
