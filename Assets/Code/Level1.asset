@@ -12,22 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a499d5c65322a143b78877f4b464606, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  content: 'FFFFFFFFFF
+  content: 'WWWWWWWWWW
 
-    FFWWFFFFFF
+    WFWWFFFFFW
 
-    FSFFFFFFFF
+    WSFFFFFFFW
 
-    FFFFFFFFFF
+    WFFFFFFFFW
 
-    FFIFFFWFFF
+    WFFFFWFFFW
 
-    FFFFFBFFFF
+    WFFFFBFFFW
 
-    FFWFFFFFFF
+    WFWFFFFFFW
 
-    FFFFFFFFFF
+    WFFFFFFFFW
 
-    FFFFFFWFFF
+    WFFFFFWFFW
 
-    FFFWFFFFFF'
+    WWWWWWWWWW
+
+'
