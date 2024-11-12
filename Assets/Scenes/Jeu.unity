@@ -386,7 +386,7 @@ MonoBehaviour:
   - {fileID: 5074916435499609175, guid: 92bb4c9f432083a48886838a05f72b61, type: 3}
   - {fileID: 5074916435499609175, guid: 92bb4c9f432083a48886838a05f72b61, type: 3}
   playerController: {fileID: 1175330841}
-  textevictoire: {fileID: 0}
+  textevictoire: {fileID: 1278692518}
   levels:
   - {fileID: 11400000, guid: 577859fd6404332428a74e0465f02dd8, type: 2}
   - {fileID: 11400000, guid: 31fe6fa8fee110642b78e1bf32263b06, type: 2}
@@ -761,7 +761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1278692517
 RectTransform:
   m_ObjectHideFlags: 0
