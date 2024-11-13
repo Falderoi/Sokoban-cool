@@ -4,7 +4,7 @@ using TMPro;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private BoardManager boardManager;
-    [SerializeField] private TextMeshProUGUI movementCounterTextTMP; // Référence au texte UI pour le compteur
+    [SerializeField] private TextMeshProUGUI movementCounterTextTMP; 
     
     private Vector2Int position;
     private int movementCounter = 0;
@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     {
         position = startPosition;
         transform.position = new Vector2(position.x, -position.y);
-        ResetMovementCounter(); // Remettre le compteur à zéro au début du niveau
+        ResetMovementCounter(); 
     }
 
     private void Update()
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
                     transform.position = new Vector2(position.x, -position.y);
 
                     movementCounter++;
-                    UpdateMovementCounterText(); // Mise à jour du texte UI
+                    UpdateMovementCounterText(); 
 
                     if (boardManager.board[position.y, position.x] == TileType.Teleporter)
                     {
@@ -77,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
                             boardManager.board[desiredBoxPosition.y, desiredBoxPosition.x] = TileType.SwitchandBox;
 
                         movementCounter++;
-                        UpdateMovementCounterText(); // Mise à jour du texte UI
+                        UpdateMovementCounterText(); 
 
                         boardManager.UpdateVisuals();
                         CheckWinCondition();
@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
                     transform.position = new Vector2(position.x, -position.y);
 
                     movementCounter++;
-                    UpdateMovementCounterText(); // Mise à jour du texte UI
+                    UpdateMovementCounterText(); 
 
                     return;
                 }
@@ -148,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log("Victoire !");
         boardManager.LoadNextLevel();
-        ResetMovementCounter(); // Réinitialiser le compteur lors du chargement du niveau suivant
+        ResetMovementCounter(); 
     }
 }
 

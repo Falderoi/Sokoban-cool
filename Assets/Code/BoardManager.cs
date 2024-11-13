@@ -14,14 +14,14 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textevictoire;
     private bool victoire = false;
 
-    [SerializeField] private LevelData[] levels; // Tableau pour plusieurs niveaux
-    private int currentLevelIndex = 0; // Index du niveau actuel
+    [SerializeField] private LevelData[] levels; 
+    private int currentLevelIndex = 0; 
 
     public TileType[,] board { get; private set; }
 
     private void Start()
     {
-        textevictoire.enabled = false; // Masque le texte de victoire au début
+        textevictoire.enabled = false; 
         LoadLevel(currentLevelIndex);
     }
 
@@ -33,7 +33,7 @@ public class BoardManager : MonoBehaviour
             return;
         }
 
-        // Charger le niveau spécifié
+        
         LevelData loadedLevel = levels[levelIndex];
         board = new TileType[10, 10];
         string[] levelLines = loadedLevel.content.Split('\n');
@@ -157,7 +157,7 @@ public class BoardManager : MonoBehaviour
     {
         if (victoire)
         {
-            textevictoire.enabled = true; // Affiche le texte de victoire
+            textevictoire.enabled = true; 
         }
     }
 }
